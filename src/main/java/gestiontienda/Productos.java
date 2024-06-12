@@ -1,4 +1,5 @@
 package gestiontienda;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Productos {
@@ -6,19 +7,20 @@ public class Productos {
     private String nombreProducto;
     private String descCategoria;
     private int cveCategoria;
-    private Date fechaAdquisicion;
-    private float precio;    
-    private float puntosCompra;
+    private Date fechaAdquisicion; // dd/mm/yyyy
+    private BigDecimal precio;    
+    private BigDecimal puntosCompra = BigDecimal.valueOf(0);
     private boolean compraEfectivo;
     private boolean compraPuntos;
     private boolean devolucion = true; // bandera para cuando se puede hacer la devolucion
     public static int dimesionArray;
 
-    //constructor
+    //constructor    
     public Productos(){}
-    public Productos(String nombreProducto, int cveCategoria, Date fechaAdquisicion, float precio, float puntosCompra,
+    public Productos(String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio, BigDecimal puntosCompra,
     boolean compraEfectivo, boolean compraPuntos, boolean devolucion){
         this.nombreProducto = nombreProducto;
+        this.descCategoria = descCategoria;
         this.cveCategoria = cveCategoria;
         this.fechaAdquisicion = fechaAdquisicion;
         this.precio = precio;
@@ -34,12 +36,15 @@ public class Productos {
     //metodos
     @Override
     public String toString(){
-        return "Producto: " + this.nombreProducto + "n" + "Categoria" + this.cveCategoria + "Fecha adquisición" 
-        + this.fechaAdquisicion + "Precion" + this.precio +  "Puntos de Compra " + this.puntosCompra
-        + "Compra en efectio" + this.compraEfectivo + "Compra por puntos" + this.compraPuntos + "Devolucion" + this.devolucion;
+        return "Producto " + this.nombreProducto + "\n" + "Categoria " + this.descCategoria + "\n" + "Fecha adquisición " 
+        + this.fechaAdquisicion + "\n" + "Precio " + this.precio + "\n" +  "Puntos de Compra " + this.puntosCompra +"\n"
+        + "Compra en efectio " + this.compraEfectivo + "\n" + "Compra por puntos" + this.compraPuntos + "\n" + "Devolucion " + this.devolucion;
     }
     public String getNombreProducto() {
         return nombreProducto;
+    }    
+    public String getDescCategoria() {
+        return descCategoria;
     }
     public int getCveCategoria() {
         return cveCategoria;
@@ -47,10 +52,10 @@ public class Productos {
     public Date getFechaAdquisicion() {
         return fechaAdquisicion;
     }
-    public float getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
-    public float getPuntosCompra() {
+    public BigDecimal getPuntosCompra() {
         return puntosCompra;
     }
     public boolean isCompraEfectivo() {
@@ -65,6 +70,9 @@ public class Productos {
 
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
+    }    
+    public void setDescCategoria(String descCategoria) {
+        this.descCategoria = descCategoria;
     }
     public void setCveCategoria(int cveCategoria) {
         this.cveCategoria = cveCategoria;
@@ -72,10 +80,10 @@ public class Productos {
     public void setFechaAdquisicion(Date fechaAdquisicion) {
         this.fechaAdquisicion = fechaAdquisicion;
     }
-    public void setPrecio(float precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
-    public void setPuntosCompra(float puntosCompra) {
+    public void setPuntosCompra(BigDecimal puntosCompra) {
         this.puntosCompra = puntosCompra;
     }
     public void setCompraEfectivo(boolean compraEfectivo) {
