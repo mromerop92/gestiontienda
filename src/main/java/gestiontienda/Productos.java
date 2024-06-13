@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Productos {
     //propiedades 
+    private int id;
     private String nombreProducto;
     private String descCategoria;
     private int cveCategoria;
@@ -11,14 +12,16 @@ public class Productos {
     private BigDecimal precio;    
     private BigDecimal puntosCompra = BigDecimal.valueOf(0);
     private boolean compraEfectivo;
-    private boolean compraPuntos;
+   // private boolean compraPuntos;
     private boolean devolucion = true; // bandera para cuando se puede hacer la devolucion
-    public static int dimesionArray;
+    public static int dimesionArray = 10;
 
     //constructor    
     public Productos(){}
-    public Productos(String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio, BigDecimal puntosCompra,
-    boolean compraEfectivo, boolean compraPuntos, boolean devolucion){
+    public Productos(int id, String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio, BigDecimal puntosCompra,
+    boolean compraEfectivo, boolean devolucion){
+        super();
+        this.id = id;
         this.nombreProducto = nombreProducto;
         this.descCategoria = descCategoria;
         this.cveCategoria = cveCategoria;
@@ -26,7 +29,6 @@ public class Productos {
         this.precio = precio;
         this.puntosCompra = puntosCompra;
         this.compraEfectivo = compraEfectivo;
-        this.compraPuntos = compraPuntos;
         this.devolucion = devolucion;
 
         dimesionArray++;
@@ -36,10 +38,13 @@ public class Productos {
     //metodos
     @Override
     public String toString(){
-        return "Producto " + this.nombreProducto + "\n" + "Categoria " + this.descCategoria + "\n" + "Fecha adquisición "  + this.fechaAdquisicion +"\n"
+        return "id " + this.id + "\n" + "Producto " + this.nombreProducto + "\n" + "Categoria " + this.descCategoria + "\n" + "Fecha adquisición "  + this.fechaAdquisicion +"\n"
         + "Compra en efectio " + ((this.compraEfectivo)? "SI" : "NO")+ "\n"
         + "Precio " + this.precio + "\n" +  "Puntos por Compra " + this.puntosCompra +"\n"
         + "Devolución " + ((this.devolucion = true) ? "SI" : "NO");
+    }
+    public int getId() {
+        return id;
     }
     public String getNombreProducto() {
         return nombreProducto;
@@ -62,13 +67,13 @@ public class Productos {
     public boolean isCompraEfectivo() {
         return compraEfectivo;
     }
-    public boolean isCompraPuntos() {
-        return compraPuntos;
-    }
     public boolean isDevolucion() {
         return devolucion;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }    
@@ -89,9 +94,6 @@ public class Productos {
     }
     public void setCompraEfectivo(boolean compraEfectivo) {
         this.compraEfectivo = compraEfectivo;
-    }
-    public void setCompraPuntos(boolean compraPuntos) {
-        this.compraPuntos = compraPuntos;
     }
     public void setDevolucion(boolean devolucion) {
         this.devolucion = devolucion;
