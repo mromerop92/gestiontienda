@@ -19,7 +19,7 @@ public class Vendedor extends Productos {
     //metodos
     @Override
     public String toString(){
-        return "Nombre Vendedor " + this.nombreVendedor + "\n" + "Identificacion" + this.identificacion;
+        return "Nombre Vendedor " + this.nombreVendedor + "\n" + "Identificacion (DNI/NIE/CIF) " + this.identificacion;
     }
     public String getNombreVendedor() {
         return nombreVendedor;

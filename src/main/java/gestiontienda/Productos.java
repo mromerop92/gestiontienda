@@ -36,9 +36,10 @@ public class Productos {
     //metodos
     @Override
     public String toString(){
-        return "Producto " + this.nombreProducto + "\n" + "Categoria " + this.descCategoria + "\n" + "Fecha adquisición " 
-        + this.fechaAdquisicion + "\n" + "Precio " + this.precio + "\n" +  "Puntos de Compra " + this.puntosCompra +"\n"
-        + "Compra en efectio " + this.compraEfectivo + "\n" + "Compra por puntos" + this.compraPuntos + "\n" + "Devolucion " + this.devolucion;
+        return "Producto " + this.nombreProducto + "\n" + "Categoria " + this.descCategoria + "\n" + "Fecha adquisición "  + this.fechaAdquisicion +"\n"
+        + "Compra en efectio " + ((this.compraEfectivo)? "SI" : "NO")+ "\n"
+        + "Precio " + this.precio + "\n" +  "Puntos por Compra " + this.puntosCompra +"\n"
+        + "Devolución " + ((this.devolucion = true) ? "SI" : "NO");
     }
     public String getNombreProducto() {
         return nombreProducto;
