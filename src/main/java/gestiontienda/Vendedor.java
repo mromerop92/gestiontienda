@@ -11,9 +11,9 @@ public class Vendedor extends Productos {
 
     //constructor
     public Vendedor(){}
-    public Vendedor(int id, String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio, BigDecimal puntosCompra,
-    boolean compraEfectivo, boolean devolucion, int idProducto, String nombreVendedor, String identificacion){
-        super(id, nombreProducto, descCategoria, cveCategoria, fechaAdquisicion, precio, puntosCompra, compraEfectivo, devolucion);
+    public Vendedor(int id, String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio, BigDecimal precioVenta,
+     BigDecimal puntosCompra, boolean compraEfectivo, boolean devolucion, int idProducto, String nombreVendedor, String identificacion){
+        super(id, nombreProducto, descCategoria, cveCategoria, fechaAdquisicion, precio, precioVenta, puntosCompra, compraEfectivo, devolucion);
         this.idProducto = idProducto;
         this.nombreVendedor = nombreVendedor;
         this.identificacion = identificacion;

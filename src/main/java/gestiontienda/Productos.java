@@ -9,7 +9,8 @@ public class Productos {
     private String descCategoria;
     private int cveCategoria;
     private Date fechaAdquisicion; // dd/mm/yyyy
-    private BigDecimal precio;    
+    private BigDecimal precio;
+    private BigDecimal precioVenta;    
     private BigDecimal puntosCompra = BigDecimal.valueOf(0);
     private boolean compraEfectivo;
    // private boolean compraPuntos;
@@ -18,8 +19,8 @@ public class Productos {
 
     //constructor    
     public Productos(){}
-    public Productos(int id, String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio, BigDecimal puntosCompra,
-    boolean compraEfectivo, boolean devolucion){
+    public Productos(int id, String nombreProducto, String descCategoria, int cveCategoria, Date fechaAdquisicion, BigDecimal precio,BigDecimal precioVenta,
+     BigDecimal puntosCompra, boolean compraEfectivo, boolean devolucion){
         super();
         this.id = id;
         this.nombreProducto = nombreProducto;
@@ -27,6 +28,7 @@ public class Productos {
         this.cveCategoria = cveCategoria;
         this.fechaAdquisicion = fechaAdquisicion;
         this.precio = precio;
+        this.precioVenta = precioVenta;
         this.puntosCompra = puntosCompra;
         this.compraEfectivo = compraEfectivo;
         this.devolucion = devolucion;
@@ -40,7 +42,7 @@ public class Productos {
     public String toString(){
         return "id " + this.id + "\n" + "Producto " + this.nombreProducto + "\n" + "Categoria " + this.descCategoria + "\n" + "Fecha adquisición "  + this.fechaAdquisicion +"\n"
         + "Compra en efectio " + ((this.compraEfectivo)? "SI" : "NO")+ "\n"
-        + "Precio " + this.precio + "\n" +  "Puntos por Compra " + this.puntosCompra +"\n"
+        + "Precio compra " + this.precio + "\n" + "Precio Venta " + this.precioVenta + "\n" + "Puntos por Compra " + this.puntosCompra +"\n"
         + "Devolución " + ((this.devolucion = true) ? "SI" : "NO");
     }
     public int getId() {
@@ -60,6 +62,9 @@ public class Productos {
     }
     public BigDecimal getPrecio() {
         return precio;
+    }
+    public BigDecimal getPrecioVenta() {
+        return precioVenta;
     }
     public BigDecimal getPuntosCompra() {
         return puntosCompra;
@@ -88,6 +93,9 @@ public class Productos {
     }
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
+    }
+    public void setPrecioVenta(BigDecimal precioVenta) {
+        this.precioVenta = precioVenta;
     }
     public void setPuntosCompra(BigDecimal puntosCompra) {
         this.puntosCompra = puntosCompra;

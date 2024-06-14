@@ -27,14 +27,17 @@ public class App {
     public static String descCategoria;
     public static int cveCategoria;
     public static Date fechaAdquisicio;
-    public static BigDecimal precio;    
-    public static BigDecimal puntosCompra;
+    public static BigDecimal precio;
+    public static BigDecimal precioVenta;    
+    public static BigDecimal puntosCompra = BigDecimal.valueOf(0);
     public static boolean compraEnEfectivo;
     public static boolean devolucion = true;
     //variable bandera de compra o venta para gestoin de caja
     public static boolean compraVenta;
     //variable de cambio de valor por puntos de compra 10% adicional
-    private static BigDecimal valorPuntosCompra = BigDecimal.valueOf(1.10);
+    private static BigDecimal valorPuntosCompra = BigDecimal.valueOf(1.10);    
+    //porcentaje adicinal de venta 
+    private static BigDecimal porcentajeDeVenta = BigDecimal.valueOf(1.45);
     //catalogo productos
     public static Productos catalogo[] = new Productos[Productos.dimesionArray];
     //catalogo vendedor
@@ -75,7 +78,7 @@ public class App {
                     System.out.println("-> Opción incorrecta. <- \n");
                     break;
             }
-            System.out.println("Otra operación \n1. Si \n2. Salir");
+            System.out.println("\n Otra operación \n1. Si \n2. Salir");
             inicio = leerOpcion.nextInt();
         }   
     }
@@ -101,26 +104,23 @@ public class App {
         fechaAdquisicio = date; // verificar formato
         System.out.println("> Precio");
         precio = leer.nextBigDecimal();
+        precioVenta = precio.multiply(porcentajeDeVenta);
         System.out.println("> Compra en \n1. Efectivo \n2. Puntos de compra");
         compraEnEfectivo = ((leer.nextInt() == 1) ? true : false);
         // convertir precio a puntos de compra si|no
         if (!compraEnEfectivo)
         puntosCompra = (precio.multiply(valorPuntosCompra));
-        gestion.gestionCaja(compraVenta, precio);
+        gestion.gestionCaja(compraVenta, precio, precioVenta);
 
         //cargar producto
-        Productos pro1 = new Productos(id,nombrePro,descCategoria,cveCategoria,fechaAdquisicio,precio,puntosCompra, compraEnEfectivo, devolucion);
+        Productos pro1 = new Productos(id,nombrePro,descCategoria,cveCategoria,fechaAdquisicio,precio,precioVenta,puntosCompra, compraEnEfectivo, devolucion);
         //cargar vendedor
-        Vendedor ven1 = new Vendedor(id,nombrePro,descCategoria,cveCategoria,fechaAdquisicio,precio,puntosCompra,compraEnEfectivo,devolucion,id,nombreVende,numIdentificacion);
+        Vendedor ven1 = new Vendedor(id,nombrePro,descCategoria,cveCategoria,fechaAdquisicio,precio,precioVenta,puntosCompra,compraEnEfectivo,devolucion,id,nombreVende,numIdentificacion);
         
         catalogo[((int)id)] = pro1;
         catalogoVende[((int)id)] = ven1;
-
-        
-
         id++;
         limparVaribles();
-
     }
 
     public static void limparVaribles(){                
