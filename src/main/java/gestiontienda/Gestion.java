@@ -7,23 +7,14 @@ public class Gestion {
     private Vendedor vendedor[] =  null;
 
     //leer datos ingresados
-    Scanner leer = new Scanner(System.in);
-    Date date = new Date();    
-    //variable de cambio de valor por puntos de compra 10% adicional
-    BigDecimal valorPuntosCompra = BigDecimal.valueOf(1.10);
-    //variable saldo minimo en caja
-    BigDecimal minimoCaja;
+    private Scanner leer = new Scanner(System.in);
+    private Date date = new Date();
     // varibale caja fuerte
-    BigDecimal cajaFuerte;
+    private BigDecimal cajaFuerte = BigDecimal.valueOf(0);
     // variable de valor a comparar para guardar a caja fuerte
-    BigDecimal aCajafuerte = BigDecimal.valueOf(3000);
+    private BigDecimal aCajafuerte = BigDecimal.valueOf(3000);
     //variable bandera de compra o venta para gestoin de caja
-    boolean compraVenta;
-
-    //catalogo productos
-    //Productos catalogo[] = new Productos[Productos.dimesionArray];
-
-
+    private boolean compraVenta;
     //constructor
     public Gestion(){}
     public Gestion(Productos[] productos, Vendedor[] vendedor){
@@ -34,16 +25,31 @@ public class Gestion {
     //metodos   
     public void buscaProductos(Productos[] producto){      
         for (int  i = 0; i < producto.length; i++){
+            if(!producto[i].equals(null))
             System.out.println("\n Todos los Productos \n *********** "+ "\n"  + producto[i]);
+            break;
         }
     }
     public void buscarPorId(int id, Productos[] producto){
         System.out.println("producto");
+
     }
     //45% mas en precio    
-    public void vender(Productos[] producto){
+    public void vender(Productos[] producto){ 
+        compraVenta = false;       
         buscaProductos(producto);
-        System.out.println("ingresa id de productio a vender");
+        System.out.println("\n Ingresa id de productio a vender");
+        int prId = leer.nextInt();
+        for (int i = 0; i < producto.length; i++){
+            if (producto[i].getId() == prId){
+                System.out.println("Producto seleccionado ");                
+                System.out.println(producto[i]);  
+                gestionCaja(compraVenta, producto[i].getPrecio() ,producto[i].getPrecioVenta());                
+                break;             
+            } else {
+                System.out.println("Id incorrecto");
+            }        
+        }
 
     }
 
@@ -58,32 +64,44 @@ public class Gestion {
     public void recuperacionProducto(){}
 
     // espera bandera de compraVenta, precio para gestion
-    public void gestionCaja(boolean prCompraOVenta, BigDecimal prPrecio){     
-        minimoCaja = BigDecimal.valueOf(1000);   
+    public void gestionCaja(boolean prCompraOVenta, BigDecimal prPrecioCompra, BigDecimal prPrecioVenta){
+        //variable saldo minimo 
+        BigDecimal minimoCaja = BigDecimal.valueOf(0);
         if(prCompraOVenta){
-            if(minimoCaja.compareTo(prPrecio)==1){
-                minimoCaja.subtract(prPrecio);
-                System.out.println("Compra OK");                
+            // compra
+            minimoCaja = new BigDecimal(1000);
+            if(minimoCaja.compareTo(prPrecioCompra)==1){                       
+                minimoCaja = minimoCaja.subtract(prPrecioCompra);
+                System.out.println("Compra OK " + minimoCaja);
+                
             } else {
                 System.out.println("***************");
                 System.out.println("* ADVERTENCIA *");
                 System.out.println("***************");
-                System.out.println("Saldo de caja menor");
+                System.out.println("Saldo super a saldo de caja");
             }
-        } else{
-            minimoCaja.add(prPrecio);
+
+        }else{
+            // vender
+            minimoCaja = minimoCaja.add(prPrecioVenta);
             if(minimoCaja.compareTo(aCajafuerte)==1){
                 BigDecimal diferencia = minimoCaja.subtract(new BigDecimal(1000));
-                cajaFuerte.add(diferencia);
-                minimoCaja.subtract(diferencia);        
+                cajaFuerte = cajaFuerte.add(diferencia);
+                minimoCaja = minimoCaja.subtract(diferencia);        
                 System.out.println("Se salvo en caja fuerte");
-                System.out.println("Venta OK");
+                System.out.println("Venta OK " + minimoCaja);
+
+                // retorno prueba
+                System.out.println("com caja fuerte");
                 System.out.println("*******" + minimoCaja + " " + cajaFuerte);
+
             } else {
-                System.out.println("Venta OK");
+                System.out.println("Venta OK " + minimoCaja);
+                // retorno pruebas
+                System.out.println("sin caja fuerte");
+                System.out.println(minimoCaja + "*****" + cajaFuerte );
             }
         }
-        minimoCaja = minimoCaja.subtract(prPrecio);
     }
 
     public void movimientosCaja(){}
