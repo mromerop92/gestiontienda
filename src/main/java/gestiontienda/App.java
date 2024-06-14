@@ -1,5 +1,5 @@
 /**
- * Sistemas de Gestión de tienda de senguda manno.
+ * Sistemas de Gestión de tienda de senguda mano.
  * @author Moises Antonio Romero Pereira.
  * @version 10/06/2024  1.0 
  */
@@ -11,16 +11,13 @@ public class App {
     
     public static Scanner leerOpcion = new Scanner(System.in);
     public static int inicio;
-    
-    /* variables de meto comprar  */
-        //leer datos ingresados
+    //leer datos de teclado
     public static Scanner leer = new Scanner(System.in);
-    public static Date date = new Date();
 
+    public static Date date = new Date();
     //variable vendedor
     public static String nombreVende;
     public static String numIdentificacion;
-
     //variable detalles productos
     public static int id = 0;
     public static String nombrePro;
@@ -34,15 +31,14 @@ public class App {
     public static boolean devolucion = true;
     //variable bandera de compra o venta para gestoin de caja
     public static boolean compraVenta;
-    //variable de cambio de valor por puntos de compra 10% adicional
+    //variable de cambio de valor por puntos de compra 10% adicional, suma total
     private static BigDecimal valorPuntosCompra = BigDecimal.valueOf(1.10);    
-    //porcentaje adicinal de venta 
+    //porcentaje adicinal de venta 45%, suma total 
     private static BigDecimal porcentajeDeVenta = BigDecimal.valueOf(1.45);
     //catalogo productos
     public static Productos catalogo[] = new Productos[Productos.dimesionArray];
     //catalogo vendedor
     public static Vendedor catalogoVende[] = new Vendedor[Vendedor.dimesionArray];
-    /* ----------------  */
 
     public static void main( String[] args ) {  
         Gestion gestion = new Gestion();      
@@ -69,7 +65,7 @@ public class App {
                     gestion.buscaVendedor(catalogoVende);
                     break;
                 case 5:
-                    gestion.recuperacionProducto();
+                    gestion.recuperacionProducto(catalogo);
                     break;
                 case 6:
                     gestion.movimientosCaja();
@@ -83,7 +79,7 @@ public class App {
         }   
     }
 
-     //metodo compra
+     //comprar
      public static void comprar(){
         Gestion gestion = new Gestion();
         compraVenta = true;   
@@ -110,7 +106,7 @@ public class App {
         // convertir precio a puntos de compra si|no
         if (!compraEnEfectivo)
         puntosCompra = (precio.multiply(valorPuntosCompra));
-        gestion.gestionCaja(compraVenta, precio, precioVenta);
+        gestion.gestionCaja(compraVenta, precio, precioVenta, nombrePro, fechaAdquisicio);
 
         //cargar producto
         Productos pro1 = new Productos(id,nombrePro,descCategoria,cveCategoria,fechaAdquisicio,precio,precioVenta,puntosCompra, compraEnEfectivo, devolucion);
@@ -133,6 +129,4 @@ public class App {
         precio = BigDecimal.valueOf(0);    
         puntosCompra = BigDecimal.valueOf(0);
     }
-
-
 }
