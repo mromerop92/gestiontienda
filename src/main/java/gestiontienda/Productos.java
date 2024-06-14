@@ -8,13 +8,12 @@ public class Productos {
     private String nombreProducto;
     private String descCategoria;
     private int cveCategoria;
-    private Date fechaAdquisicion; // dd/mm/yyyy
+    private Date fechaAdquisicion;
     private BigDecimal precio;
     private BigDecimal precioVenta;    
     private BigDecimal puntosCompra = BigDecimal.valueOf(0);
     private boolean compraEfectivo;
-   // private boolean compraPuntos;
-    private boolean devolucion = true; // bandera para cuando se puede hacer la devolucion
+    private boolean devolucion = true; // bandera para cuando se puede hacer la devolucion, menos de 30 dias
     public static int dimesionArray = 10;
 
     //constructor    

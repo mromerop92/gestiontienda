@@ -5,6 +5,7 @@ import java.util.*;
 public class Gestion {
     private Productos productos[] = null;
     private Vendedor vendedor[] =  null;
+    private MovimientosCaja movimientosCaja[] = null;
 
     //leer datos ingresados
     private Scanner leer = new Scanner(System.in);
@@ -15,11 +16,21 @@ public class Gestion {
     private BigDecimal aCajafuerte = BigDecimal.valueOf(3000);
     //variable bandera de compra o venta para gestoin de caja
     private boolean compraVenta;
+    //variable productos recuperar adicional 10% y se suma al valor
+    private BigDecimal recuperarAdicionalTotal = BigDecimal.valueOf(1.10);
+    //variable productos recuperar adicional 10%
+    private BigDecimal recuperarSoloAdicional = BigDecimal.valueOf(0.10);
+
+    // variables movimieto caja
+    //catalogo movimientos
+    public  MovimientosCaja catalogoMovCaja[] = new MovimientosCaja[MovimientosCaja.dimesionArrayCaja];
+
     //constructor
     public Gestion(){}
-    public Gestion(Productos[] productos, Vendedor[] vendedor){
+    public Gestion(Productos[] productos, Vendedor[] vendedor, MovimientosCaja[] movimientosCajas){        
         this.productos = productos;
         this.vendedor = vendedor;
+        this.movimientosCaja = movimientosCajas;
     }
 
     //metodos   
@@ -38,42 +49,67 @@ public class Gestion {
     public void vender(Productos[] producto){ 
         compraVenta = false;       
         buscaProductos(producto);
-        System.out.println("\n Ingresa id de productio a vender");
+        System.out.println("\n Selección por id, producto a vender");
         int prId = leer.nextInt();
         for (int i = 0; i < producto.length; i++){
             if (producto[i].getId() == prId){
                 System.out.println("Producto seleccionado ");                
                 System.out.println(producto[i]);  
-                gestionCaja(compraVenta, producto[i].getPrecio() ,producto[i].getPrecioVenta());                
+                gestionCaja(compraVenta, producto[i].getPrecio() ,producto[i].getPrecioVenta(), producto[i].getNombreProducto(), producto[i].getFechaAdquisicion());                
                 break;             
             } else {
                 System.out.println("Id incorrecto");
             }        
         }
-
     }
 
-    // buscar por nombre y por identificacion
+    // buscar todo
     public void buscaVendedor(Vendedor[] vende){
         for (int i = 0; i < vende.length; i++){
             System.out.println("\n Todos los vendedores \n **********"+ "\n" + vende[i]);
         }
         
     }
-    //devolucion de cproducto de compra
-    public void recuperacionProducto(){}
+    //devolucion de producto de compra
+    //pago adicional de 10% precio
+    public void recuperacionProducto(Productos[] producto){
+        buscaProductos(producto);
+        System.out.println("\n Selección por id, producto a recuperar");
+        int prId = leer.nextInt();
+        for (int i = 0; i < producto.length; i++){
+            if (producto[i].getId() == prId){
+                System.out.println("Producto seleccionado ");                
+                System.out.println(producto[i]);
+                compraVenta = false;
+                BigDecimal pagoPorDevolucion = producto[i].getPrecio().multiply(recuperarAdicionalTotal);
+                System.out.println("\nPago adicional " + producto[i].getPrecio().multiply(recuperarSoloAdicional) 
+                + "\nPago por devolucion total " + pagoPorDevolucion);
+                System.out.println("\nRealizar operacion \n1. Si 2. No");
+                if(leer.nextInt() == 1)
+                gestionCaja(compraVenta, producto[i].getPrecio() , pagoPorDevolucion, producto[i].getNombreProducto(), producto[i].getFechaAdquisicion());                
+                break;             
+            } else {
+                System.out.println("Id incorrecto");
+            }        
+        }
+    }
 
     // espera bandera de compraVenta, precio para gestion
-    public void gestionCaja(boolean prCompraOVenta, BigDecimal prPrecioCompra, BigDecimal prPrecioVenta){
+    public void gestionCaja(boolean prCompraOVenta, BigDecimal prPrecioCompra, BigDecimal prPrecioVenta, String prNombreProducto, Date prFechcompra){
         //variable saldo minimo 
         BigDecimal minimoCaja = BigDecimal.valueOf(0);
+        //varibale contador moviemtos
+        int numMovimientos = 0;
         if(prCompraOVenta){
             // compra
             minimoCaja = new BigDecimal(1000);
             if(minimoCaja.compareTo(prPrecioCompra)==1){                       
                 minimoCaja = minimoCaja.subtract(prPrecioCompra);
-                System.out.println("Compra OK " + minimoCaja);
-                
+                System.out.println(" OK ");
+                numMovimientos++;
+                MovimientosCaja mov1 = new MovimientosCaja(numMovimientos,"Compra", prNombreProducto, prPrecioCompra,
+                 prFechcompra,minimoCaja,minimoCaja, cajaFuerte);
+                 catalogoMovCaja[(int)numMovimientos] = mov1;                
             } else {
                 System.out.println("***************");
                 System.out.println("* ADVERTENCIA *");
@@ -87,9 +123,13 @@ public class Gestion {
             if(minimoCaja.compareTo(aCajafuerte)==1){
                 BigDecimal diferencia = minimoCaja.subtract(new BigDecimal(1000));
                 cajaFuerte = cajaFuerte.add(diferencia);
-                minimoCaja = minimoCaja.subtract(diferencia);        
-                System.out.println("Se salvo en caja fuerte");
-                System.out.println("Venta OK " + minimoCaja);
+                minimoCaja = minimoCaja.subtract(diferencia);   
+                numMovimientos++;
+                MovimientosCaja mov1 = new MovimientosCaja(numMovimientos,"Venta", prNombreProducto, prPrecioCompra,
+                 prFechcompra,minimoCaja,minimoCaja, cajaFuerte);
+                catalogoMovCaja[(int)numMovimientos] = mov1;               
+                System.out.println("OK");
+
 
                 // retorno prueba
                 System.out.println("com caja fuerte");
@@ -104,6 +144,16 @@ public class Gestion {
         }
     }
 
-    public void movimientosCaja(){}
+    public void movimientosCaja(){
+       movimientosCaja(catalogoMovCaja);
+    }
+
+    public void movimientosCaja(MovimientosCaja[] movimientosCajas){
+        for (int  i = 0; i < movimientosCajas.length; i++){
+            if(!movimientosCajas[i].equals(null))
+            System.out.println("\n"+ movimientosCajas[i]);
+            break;
+        }
+    }
     
 }
